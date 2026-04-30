@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full bg-white antialiased`}
     >
       <body className="flex min-h-full flex-col bg-white text-zinc-900">
         <header className="border-b border-zinc-200 px-6 py-4">
@@ -60,7 +60,7 @@ export default function RootLayout({
             </ul>
           </nav>
         </header>
-        <main className="flex flex-1 flex-col">{children}</main>
+        <main className="flex flex-1 flex-col bg-white">{children}</main>
         <footer className="border-t border-zinc-200 px-6 py-8 text-sm text-zinc-600">
           <div className="mx-auto flex max-w-4xl flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
             <div>
