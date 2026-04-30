@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -61,6 +62,7 @@ export default function RootLayout({
           </nav>
         </header>
         <main className="flex flex-1 flex-col bg-white">{children}</main>
+        <SpeedInsights />
         <footer className="border-t border-zinc-200 px-6 py-8 text-sm text-zinc-600">
           <div className="mx-auto flex max-w-4xl flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
             <div>
