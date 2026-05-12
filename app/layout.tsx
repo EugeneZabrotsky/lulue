@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
@@ -28,6 +29,7 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-white font-sans text-zinc-800">
         <main className="min-h-full">{children}</main>
+        <Analytics />
         <SpeedInsights />
       </body>
     </html>
