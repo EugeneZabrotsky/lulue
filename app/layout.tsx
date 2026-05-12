@@ -5,17 +5,18 @@ import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
 });
 
 export const metadata: Metadata = {
-  title: "Lulué Flower Boutique",
-  description: "Lulué Flower Boutique",
+  title: "Lulué — Kwiatowy butik",
+  description:
+    "Lulué — kwiatowy butik w Warszawie. Świeże bukiety i kompozycje na zamówienie.",
 };
 
 export default function RootLayout({
@@ -25,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="pl"
       className={`${geistSans.variable} ${geistMono.variable} h-full bg-white antialiased`}
     >
       <body className="min-h-full bg-white text-zinc-800">

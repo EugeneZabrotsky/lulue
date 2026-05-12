@@ -3,6 +3,9 @@ import type { SVGProps } from "react";
 const MAPS_URL = "https://maps.app.goo.gl/xtjLeNa3KoSQZw6M8";
 const PHONE_E164 = "+48571082910";
 const INSTAGRAM_URL = "https://www.instagram.com/lulue.flowers/";
+/** Set to true to restore the Telegram pill in the footer. */
+const SHOW_TELEGRAM_LINK = false;
+
 const TELEGRAM_USERNAME = "katyadbk";
 const TELEGRAM_URL = `https://t.me/${TELEGRAM_USERNAME}`;
 
@@ -65,7 +68,20 @@ export function SiteFooter() {
   return (
     <footer id="footer" className="border-t border-zinc-200/80 bg-white px-6 py-14 sm:px-10">
       <div className="mx-auto max-w-5xl">
-        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+        <div className="flex justify-center px-4 pb-6">
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block max-w-xl rounded-sm border border-zinc-300 bg-white px-10 py-5 text-center transition-colors hover:border-zinc-400 hover:bg-zinc-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400 active:bg-zinc-100/90 sm:max-w-3xl sm:px-14 sm:py-6"
+          >
+            <span className="font-[family-name:var(--font-serif)] text-lg font-medium leading-snug tracking-[0.04em] text-zinc-950 sm:text-2xl sm:tracking-[0.05em]">
+              Zamów swój bukiet przez Instagram
+            </span>
+          </a>
+        </div>
+
+        <div className="mt-7 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           <a
             href={MAPS_URL}
             target="_blank"
@@ -73,7 +89,7 @@ export function SiteFooter() {
             className={pill}
           >
             <PinIcon className={iconClass} />
-            Warsaw
+            Warszawa
           </a>
           <a href={`tel:${PHONE_E164.replace(/\s/g, "")}`} className={pill}>
             <PhoneIcon className={iconClass} />
@@ -88,24 +104,21 @@ export function SiteFooter() {
             <InstagramIcon className={iconClass} />
             Instagram
           </a>
-          <a
-            href={TELEGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={pill}
-          >
-            <TelegramIcon className={iconClass} />
-            @{TELEGRAM_USERNAME}
-          </a>
+          {SHOW_TELEGRAM_LINK ? (
+            <a
+              href={TELEGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={pill}
+            >
+              <TelegramIcon className={iconClass} />
+              @{TELEGRAM_USERNAME}
+            </a>
+          ) : null}
         </div>
 
-        <div
-          className="mx-auto mt-10 max-w-md border-t border-zinc-200/90"
-          aria-hidden
-        />
-
-        <p className="mt-8 text-center text-xs text-zinc-500">
-          © 2025–2026 Lulué Flower Boutique
+        <p className="mt-14 text-center text-xs text-zinc-500">
+          © 2025–2026 Lulué — Flower Boutique
         </p>
       </div>
     </footer>

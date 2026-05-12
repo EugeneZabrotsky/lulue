@@ -78,7 +78,7 @@ const LINK_COLOR_SOLID = LINK_COLOR_OUTPUT[2];
 /** Short link → place: LULUÉ FLOWERS (Warsaw). Embed `pb` from share/embed flow; works without Maps API key. */
 const LULUE_GOOGLE_MAPS_URL = "https://maps.app.goo.gl/xtjLeNa3KoSQZw6M8";
 const LULUE_GOOGLE_MAP_EMBED_SRC =
-  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2445.936!2d20.9584617!3d52.1980492!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471933ca4d3a2b51%3A0xdcdb45249d80dea4!2sLULU%C3%89%20FLOWERS!5e0!3m2!1sen!2sus!4v1736640000000!5m2!1sen!2sus";
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2445.936!2d20.9584617!3d52.1980492!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471933ca4d3a2b51%3A0xdcdb45249d80dea4!2sLULU%C3%89%20FLOWERS!5e0!3m2!1spl!2spl!4v1736640000000!5m2!1spl!2spl";
 
 export function Hero({ gallery }: { gallery?: ReactNode }) {
   const reduceMotion = useReducedMotion() === true;
@@ -315,7 +315,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
               className="opacity-90 transition-opacity hover:opacity-100"
               href="#footer"
             >
-              Contact
+              Kontakt
             </a>
             <a
               className="opacity-90 transition-opacity hover:opacity-100"
@@ -355,7 +355,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
             >
               <Image
                 src="/references/lulue_logo_black_latest.png"
-                alt="lulué"
+                alt="Logo Lulué"
                 width={799}
                 height={367}
                 className="h-auto w-screen max-w-none"
@@ -419,7 +419,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
         <div className="absolute inset-0 overflow-hidden">
           <Image
             src="/references/hero_image_1_active.png"
-            alt="Editorial floral still life"
+            alt="Kompozycja kwiatów w stylu edytorialnym"
             fill
             className="object-cover"
             sizes="100vw"
@@ -472,17 +472,17 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
         <div className="mx-auto max-w-5xl space-y-8">
           <div className="mx-auto max-w-3xl space-y-3 text-center sm:text-left">
             <h2 className="font-[family-name:var(--font-serif)] text-3xl tracking-tight sm:text-4xl">
-              Visit the boutique
+              Odwiedź nasz butik
             </h2>
             <p className="leading-8 text-zinc-700">
-              LULUÉ FLOWERS — directions and opening details in{" "}
+              LULUÉ FLOWERS — adres, dojazd i godziny otwarcia znajdziesz w{" "}
               <a
                 href={LULUE_GOOGLE_MAPS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline decoration-zinc-400 underline-offset-4 transition-colors hover:text-zinc-900"
               >
-                Google Maps
+                Mapach Google
               </a>
               .
             </p>
@@ -490,7 +490,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
 
           <div className="overflow-hidden rounded-sm border border-zinc-300/70 bg-zinc-200 shadow-sm">
             <iframe
-              title="LULUÉ FLOWERS on Google Maps"
+              title="LULUÉ FLOWERS w Mapach Google"
               src={LULUE_GOOGLE_MAP_EMBED_SRC}
               className="aspect-[4/3] w-full min-h-[280px] border-0 sm:aspect-auto sm:h-[min(520px,55vh)] sm:min-h-[360px]"
               loading="lazy"

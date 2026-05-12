@@ -13,37 +13,37 @@ const ITEMS: GalleryItem[] = [
     src: "/references/flowers/IMG_3334.jpg",
     width: 5712,
     height: 4284,
-    alt: "Bouquet in warm light at LULUÉ",
+    alt: "Bukiet w ciepłym świetle, Lulué",
   },
   {
     src: "/references/flowers/IMG_3308.jpg",
     width: 4032,
     height: 3024,
-    alt: "Floral arrangement, layered tones",
+    alt: "Kompozycja kwiatów w stonowanych tonach",
   },
   {
     src: "/references/flowers/IMG_1665.jpg",
     width: 2268,
     height: 4032,
-    alt: "Tall bouquet, vertical composition",
+    alt: "Wysoki bukiet, kompozycja pionowa",
   },
   {
     src: "/references/flowers/seasonal-blooms.jpg",
     width: 3024,
     height: 4032,
-    alt: "Seasonal blooms",
+    alt: "Kwiaty sezonowe",
   },
   {
     src: "/references/flowers/IMG_8998.jpg",
     width: 2268,
     height: 4032,
-    alt: "Flowers in narrow format",
+    alt: "Kwiaty w wąskiej kompozycji kadru",
   },
   {
     src: "/references/flowers/IMG_1758.jpg",
     width: 2268,
     height: 4032,
-    alt: "Vertical floral portrait",
+    alt: "Kwiatowy portret w układzie pionowym",
   },
 ];
 
@@ -77,7 +77,7 @@ export function FlowerGallery() {
   return (
     <section
       id="gallery"
-      aria-label="Flower gallery"
+      aria-label="Galeria kwiatów"
       className="w-full bg-zinc-200"
     >
       <div className="flex flex-col gap-px">
