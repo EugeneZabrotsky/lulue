@@ -2,6 +2,8 @@ import type { SVGProps } from "react";
 
 const MAPS_URL = "https://maps.app.goo.gl/xtjLeNa3KoSQZw6M8";
 const PHONE_E164 = "+48571082910";
+/** Display grouping (tel: stays compact E.164 digits). */
+const PHONE_DISPLAY = `${PHONE_E164.slice(0, 3)} ${PHONE_E164.slice(3, 6)} ${PHONE_E164.slice(6, 9)} ${PHONE_E164.slice(9)}`;
 const INSTAGRAM_URL = "https://www.instagram.com/lulue.flowers/";
 /** Set to true to restore the Telegram pill in the footer. */
 const SHOW_TELEGRAM_LINK = false;
@@ -93,7 +95,7 @@ export function SiteFooter() {
           </a>
           <a href={`tel:${PHONE_E164.replace(/\s/g, "")}`} className={pill}>
             <PhoneIcon className={iconClass} />
-            {PHONE_E164}
+            {PHONE_DISPLAY}
           </a>
           <a
             href={INSTAGRAM_URL}
