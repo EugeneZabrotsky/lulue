@@ -283,8 +283,8 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
   // White plate and link color share the same (deliberately slow) ramp.
   // Default `useTransform` clamp keeps both outputs locked at the final
   // keyframe value once `scrollYProgress` exceeds the last input — so
-  // the plate fill stays at rgba(255,255,255,0.5) (and the links stay at their
-  // final dark color) for the rest of the hero and forever after.
+  // the plate fill stays opaque (and the links stay at their final dark color)
+  // for the rest of the hero and forever after.
   const plateOpacity = useTransform(
     scrollYProgress,
     PLATE_RANGE,
@@ -299,14 +299,14 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
   // Plate fill/border alpha track `plateOpacity` but keep the layer at opacity 1.
   // Combining `opacity` on the whole node with `bg-white/50` double-multiplies
   // alpha and breaks smooth compositing with the hero logo stack.
-  const plateFill = useTransform(plateOpacity, (o) => {
-    const a = viewport.isSm ? 0.5 * o : o;
-    return `rgba(255, 255, 255, ${a})`;
-  });
-  const plateBorderBottom = useTransform(plateOpacity, (o) => {
-    const a = viewport.isSm ? 0.6 * o : o;
-    return `rgba(228, 228, 231, ${a})`;
-  });
+  const plateFill = useTransform(
+    plateOpacity,
+    (o) => `rgba(255, 255, 255, ${o})`,
+  );
+  const plateBorderBottom = useTransform(
+    plateOpacity,
+    (o) => `rgba(228, 228, 231, ${o})`,
+  );
 
   const logoEntranceTransition = reduceMotion
     ? { duration: 0 }
@@ -328,14 +328,10 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
         className="pointer-events-none fixed inset-x-0 top-0 z-[28] border-b border-transparent"
         style={{
           backgroundColor: plateRampComplete
-            ? viewport.isSm
-              ? "rgba(255, 255, 255, 0.5)"
-              : "rgb(255, 255, 255)"
+            ? "rgb(255, 255, 255)"
             : plateFill,
           borderBottomColor: plateRampComplete
-            ? viewport.isSm
-              ? "rgba(228, 228, 231, 0.6)"
-              : "rgb(228, 228, 231)"
+            ? "rgb(228, 228, 231)"
             : plateBorderBottom,
           height: `${plateHeightPx}px`,
         }}
@@ -528,7 +524,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
         <div className="mx-auto max-w-5xl space-y-8">
           <div className="mx-auto max-w-3xl space-y-3 text-center sm:text-left">
             <h2 className="font-[family-name:var(--font-serif)] text-3xl tracking-tight sm:text-4xl">
-              Odwiedź nasz butik
+              Zapraszamy do naszego butika
             </h2>
             <p className="leading-8 text-zinc-700">
               Lulué - Flower Boutique — adres, dojazd i godziny otwarcia znajdziesz w{" "}
