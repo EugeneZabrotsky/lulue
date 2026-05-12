@@ -516,13 +516,13 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
         id="content"
         className="bg-stone-100 px-6 py-20 text-zinc-800 sm:px-10 sm:py-28"
       >
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-10 sm:grid-cols-2 sm:gap-8 lg:gap-10">
-            <div className="flex flex-col gap-4 sm:gap-6">
+        <div className="mx-auto min-w-0 max-w-7xl">
+          <div className="grid min-w-0 gap-10 sm:grid-cols-2 sm:gap-8 lg:gap-10">
+            <div className="flex min-w-0 flex-col gap-4 sm:gap-6">
               <h2 className="text-center font-[family-name:var(--font-serif)] text-3xl tracking-tight sm:text-left sm:text-4xl">
                 Zapraszamy do naszego butika.
               </h2>
-              <div className="relative isolate aspect-[4/3] min-h-[360px] overflow-hidden rounded-sm border border-zinc-300/70 bg-zinc-300/40 shadow-sm sm:aspect-auto sm:min-h-[440px] sm:h-[min(640px,68vh)]">
+              <div className="relative isolate aspect-[4/3] w-full min-w-0 min-h-[360px] overflow-hidden rounded-sm border border-zinc-300/70 bg-zinc-300/40 shadow-sm sm:aspect-auto sm:h-[min(640px,68vh)] sm:min-h-[440px]">
                 <Image
                   src="/references/interior/photo_2026-05-12%2005.16.38.jpeg"
                   alt="Wnętrze butiku kwiatowego Lulué"
@@ -533,7 +533,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
                 />
               </div>
             </div>
-            <div className="flex flex-col gap-4 sm:gap-6">
+            <div className="flex min-w-0 flex-col gap-4 sm:gap-6">
               <h3 className="text-center font-[family-name:var(--font-serif)] text-3xl font-normal tracking-tight sm:text-left sm:text-4xl">
                 <a
                   href={LULUE_GOOGLE_MAPS_URL}
@@ -545,11 +545,11 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
                 </a>
                 .
               </h3>
-              <div className="overflow-hidden rounded-sm border border-zinc-300/70 bg-zinc-200 shadow-sm">
+              <div className="relative min-w-0 w-full overflow-hidden rounded-sm border border-zinc-300/70 bg-zinc-200 shadow-sm">
                 <iframe
                   title="Lulué - Flower Boutique w Mapach Google"
                   src={LULUE_GOOGLE_MAP_EMBED_SRC}
-                  className="aspect-[4/3] w-full min-h-[360px] border-0 sm:aspect-auto sm:h-[min(640px,68vh)] sm:min-h-[440px]"
+                  className="block aspect-[4/3] min-h-[360px] min-w-0 w-full max-w-full border-0 sm:aspect-auto sm:h-[min(640px,68vh)] sm:min-h-[440px]"
                   loading="lazy"
                   allowFullScreen
                   referrerPolicy="no-referrer-when-downgrade"
