@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lulué — Kwiatowy butik",
+  title: "Lulué - Flower Boutique",
   description:
-    "Lulué — kwiatowy butik w Warszawie. Świeże bukiety i kompozycje na zamówienie.",
+    "Lulué - Flower Boutique in Warsaw. Fresh bouquets and custom arrangements to order.",
 };
 
 export default function RootLayout({

@@ -79,7 +79,7 @@ const LINK_COLOR_OUTPUT: [string, string, string] = [
 ];
 const LINK_COLOR_SOLID = LINK_COLOR_OUTPUT[2];
 
-/** Short link → place: LULUÉ FLOWERS (Warsaw). Embed `pb` from share/embed flow; works without Maps API key. */
+/** Short link → Lulué - Flower Boutique (Warsaw). Embed `pb` from share/embed flow; works without Maps API key. */
 const LULUE_GOOGLE_MAPS_URL = "https://maps.app.goo.gl/xtjLeNa3KoSQZw6M8";
 const LULUE_GOOGLE_MAP_EMBED_SRC =
   "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2445.936!2d20.9584617!3d52.1980492!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471933ca4d3a2b51%3A0xdcdb45249d80dea4!2sLULU%C3%89%20FLOWERS!5e0!3m2!1spl!2spl!4v1736640000000!5m2!1spl!2spl";
@@ -481,7 +481,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
               Odwiedź nasz butik
             </h2>
             <p className="leading-8 text-zinc-700">
-              LULUÉ FLOWERS — adres, dojazd i godziny otwarcia znajdziesz w{" "}
+              Lulué - Flower Boutique — adres, dojazd i godziny otwarcia znajdziesz w{" "}
               <a
                 href={LULUE_GOOGLE_MAPS_URL}
                 target="_blank"
@@ -496,7 +496,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
 
           <div className="overflow-hidden rounded-sm border border-zinc-300/70 bg-zinc-200 shadow-sm">
             <iframe
-              title="LULUÉ FLOWERS w Mapach Google"
+              title="Lulué - Flower Boutique w Mapach Google"
               src={LULUE_GOOGLE_MAP_EMBED_SRC}
               className="aspect-[4/3] w-full min-h-[280px] border-0 sm:aspect-auto sm:h-[min(520px,55vh)] sm:min-h-[360px]"
               loading="lazy"

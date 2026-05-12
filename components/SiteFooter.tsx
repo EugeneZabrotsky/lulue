@@ -118,7 +118,7 @@ export function SiteFooter() {
         </div>
 
         <p className="mt-14 text-center text-xs text-zinc-500">
-          © 2025–2026 Lulué — Flower Boutique
+          © 2025–2026 Lulué - Flower Boutique
         </p>
       </div>
     </footer>
