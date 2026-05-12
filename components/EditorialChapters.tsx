@@ -26,7 +26,7 @@ type ChapterConfig = {
 const CHAPTERS: ChapterConfig[] = [
   {
     id: "swiezosc",
-    title: "Świeżość",
+    title: "świeżość",
     items: [
       {
         src: "/references/flowers/1/IMG_8998.jpg",
@@ -44,7 +44,7 @@ const CHAPTERS: ChapterConfig[] = [
   },
   {
     id: "estetyka",
-    title: "Estetyka",
+    title: "estetyka",
     items: [
       {
         src: "/references/flowers/2/IMG_1665.jpg",
@@ -62,7 +62,7 @@ const CHAPTERS: ChapterConfig[] = [
   },
   {
     id: "emocje",
-    title: "Emocje",
+    title: "emocje",
     items: [
       {
         src: "/references/flowers/3/IMG_5456.jpg",
@@ -80,7 +80,7 @@ const CHAPTERS: ChapterConfig[] = [
   },
   {
     id: "kwiaty",
-    title: "Kwiaty",
+    title: "kwiaty",
   },
 ];
 
