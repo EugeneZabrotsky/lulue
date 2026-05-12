@@ -451,7 +451,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
 
       <section
         ref={heroSectionRef}
-        className="relative h-[100dvh] min-h-screen overflow-hidden bg-white sm:bg-black"
+        className="relative h-[100dvh] min-h-screen overflow-hidden bg-white"
       >
         <div className="absolute inset-0 overflow-hidden">
           <Image

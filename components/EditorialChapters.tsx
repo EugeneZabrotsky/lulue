@@ -16,12 +16,50 @@ type GalleryItem = {
   alt: string;
 };
 
+/** Kolory podkładki pod słowo — klucz = `ChapterConfig.id` (np. swiezosc). */
+export type ChapterPinBackdropId =
+  | "swiezosc"
+  | "estetyka"
+  | "emocje"
+  | "kwiaty";
+
+/**
+ * Podłogi (tło sekcji + sticky) i kolor nagłówka — edytuj tutaj wg słów / id rozdziałów.
+ */
+export const CHAPTER_PIN_BACKDROPS: Record<
+  ChapterPinBackdropId,
+  { background: string; heading: string }
+> = {
+  swiezosc: {
+    background: "#f5fbff",
+    heading: "#1c1917",
+  },
+  estetyka: {
+    background: "#000000",
+    heading: "#ffffff",
+  },
+  emocje: {
+    background: "#fff5f9",
+    heading: "#1c1917",
+  },
+  kwiaty: {
+    background: "#ffffff",
+    heading: "#1c1917",
+  },
+};
+
 type ChapterConfig = {
-  id: string;
+  id: ChapterPinBackdropId;
   title: string;
   /** Brak `items` — tylko nagłówek (np. przejście do mapy). */
   items?: [GalleryItem, GalleryItem];
 };
+
+const PIN_STICKY_LAYOUT =
+  "sticky top-0 flex h-[100dvh] min-h-screen w-full flex-col items-center justify-center px-6";
+
+const PIN_HEADING_TYPOGRAPHY =
+  "text-center font-[family-name:var(--font-serif)] text-5xl font-light tracking-tight sm:text-7xl md:text-8xl";
 
 const CHAPTERS: ChapterConfig[] = [
   {
@@ -87,6 +125,9 @@ const CHAPTERS: ChapterConfig[] = [
 /** Sticky white block height — shorter so after the word hits full opacity, photos arrive quickly. */
 const PIN_SCROLL_VH = 175;
 
+/** First chapter only: y-align pin top with this viewport fraction from top (0 = full handoff). ~0.1 ≈ hero almost gone. */
+const FIRST_CHAPTER_PIN_TOP_AT = 0.1;
+
 /**
  * Normalized progress through the sticky region (from useScroll start/end).
  * White → scroll → word fades in → brief hold at full opacity → sticky releases (scroll to photos).
@@ -108,7 +149,9 @@ function wordOpacityFromProgress(p: number, reduceMotion: boolean) {
 
   if (p < WORD_HOLD_START) return 0;
   if (p < WORD_FADE_IN_END) {
-    return easeOutCubic((p - WORD_HOLD_START) / (WORD_FADE_IN_END - WORD_HOLD_START));
+    return easeOutCubic(
+      (p - WORD_HOLD_START) / (WORD_FADE_IN_END - WORD_HOLD_START),
+    );
   }
   return 1;
 }
@@ -148,14 +191,27 @@ function EditorialChapter({
 }) {
   const reduceMotion = useReducedMotion() === true;
   const pinRef = useRef<HTMLDivElement>(null);
+  /**
+   * First chapter: progress 0 when the pin top aligns near the top of the viewport
+   * (`FIRST_CHAPTER_PIN_TOP_AT`), not when white first enters from the bottom.
+   */
+  const scrollStartTop = `start ${FIRST_CHAPTER_PIN_TOP_AT}` as const;
+  const scrollOffset:
+    | [typeof scrollStartTop, "end start"]
+    | ["start start", "end start"] =
+    chapterIndex === 0
+      ? [scrollStartTop, "end start"]
+      : ["start start", "end start"];
   const { scrollYProgress } = useScroll({
     target: pinRef,
-    offset: ["start start", "end start"],
+    offset: scrollOffset,
   });
 
   const wordOpacity = useTransform(scrollYProgress, (p) =>
     wordOpacityFromProgress(p, reduceMotion),
   );
+
+  const pinBackdrop = CHAPTER_PIN_BACKDROPS[chapter.id];
 
   return (
     <>
@@ -164,11 +220,17 @@ function EditorialChapter({
         className="relative w-full"
         style={{ minHeight: `${PIN_SCROLL_VH}vh` }}
       >
-        <div className="sticky top-0 flex h-[100dvh] min-h-screen w-full flex-col items-center justify-center bg-white px-6">
+        <div
+          className={PIN_STICKY_LAYOUT}
+          style={{ backgroundColor: pinBackdrop.background }}
+        >
           <motion.h2
             id={`${chapter.id}-heading`}
-            className="text-center font-[family-name:var(--font-serif)] text-5xl font-light tracking-tight text-zinc-950 sm:text-7xl md:text-8xl"
-            style={{ opacity: wordOpacity }}
+            className={PIN_HEADING_TYPOGRAPHY}
+            style={{
+              color: pinBackdrop.heading,
+              opacity: wordOpacity,
+            }}
           >
             {chapter.title}
           </motion.h2>
@@ -205,7 +267,10 @@ export function EditorialChapters() {
         <section
           key={chapter.id}
           aria-labelledby={`${chapter.id}-heading`}
-          className="w-full bg-white"
+          className="w-full"
+          style={{
+            backgroundColor: CHAPTER_PIN_BACKDROPS[chapter.id].background,
+          }}
         >
           <EditorialChapter chapter={chapter} chapterIndex={chapterIndex} />
         </section>
