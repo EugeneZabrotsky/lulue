@@ -71,6 +71,8 @@ const PLATE_FULL_PROGRESS = PLATE_RANGE[2];
 // the last opacity ticks feel like a hard step.
 const LOGO_ENTRANCE_EASE = [0.4, 0, 0.2, 1] as const;
 const LOGO_ENTRANCE_DURATION = 2.72;
+/** After scroll progress syncs (avoids a one-frame flash), fades foreground in instead of snapping. */
+const FOREGROUND_REVEAL_DURATION_S = 0.62;
 const PLATE_OPACITY_OUTPUT: [number, number, number] = [0, 0, 1];
 const LINK_COLOR_OUTPUT: [string, string, string] = [
   "rgba(255, 255, 255, 1)",
@@ -78,6 +80,17 @@ const LINK_COLOR_OUTPUT: [string, string, string] = [
   "rgba(24, 24, 27, 1)",
 ];
 const LINK_COLOR_SOLID = LINK_COLOR_OUTPUT[2];
+
+// Narrow viewports: soft white glow so the mark reads on the hero (layered blur).
+const LOGO_MOBILE_OUTLINE_CLASS =
+  "max-sm:[filter:drop-shadow(0_0_0.75px_rgba(255,255,255,0.88))_drop-shadow(0_0_2px_rgba(255,255,255,0.42))_drop-shadow(0_0_4px_rgba(255,255,255,0.22))]";
+
+// Mobile-only: foreground cutout does not span full width so a clear band remains
+// beside the bouquet (logo reads over background + transparent logo art).
+const HERO_FOREGROUND_FRAME_CLASS =
+  "absolute inset-y-0 right-0 w-[62%] sm:inset-0 sm:w-auto";
+const HERO_FOREGROUND_IMAGE_CLASS =
+  "object-cover object-right sm:object-center";
 
 /** Short link → Lulué - Flower Boutique (Warsaw). Embed `pb` from share/embed flow; works without Maps API key. */
 const LULUE_GOOGLE_MAPS_URL = "https://maps.app.goo.gl/xtjLeNa3KoSQZw6M8";
@@ -275,17 +288,26 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
   // Plate fill/border alpha track `plateOpacity` but keep the layer at opacity 1.
   // Combining `opacity` on the whole node with `bg-white/50` double-multiplies
   // alpha and breaks smooth compositing with the hero logo stack.
-  const plateFill = useTransform(plateOpacity, (o) =>
-    `rgba(255, 255, 255, ${0.5 * o})`,
-  );
-  const plateBorderBottom = useTransform(plateOpacity, (o) =>
-    `rgba(228, 228, 231, ${0.6 * o})`,
-  );
+  const plateFill = useTransform(plateOpacity, (o) => {
+    const a = viewport.isSm ? 0.5 * o : o;
+    return `rgba(255, 255, 255, ${a})`;
+  });
+  const plateBorderBottom = useTransform(plateOpacity, (o) => {
+    const a = viewport.isSm ? 0.6 * o : o;
+    return `rgba(228, 228, 231, ${a})`;
+  });
 
   const logoEntranceTransition = reduceMotion
     ? { duration: 0 }
     : {
         duration: LOGO_ENTRANCE_DURATION,
+        ease: LOGO_ENTRANCE_EASE,
+      };
+
+  const foregroundRevealTransition = reduceMotion
+    ? { duration: 0 }
+    : {
+        duration: FOREGROUND_REVEAL_DURATION_S,
         ease: LOGO_ENTRANCE_EASE,
       };
 
@@ -295,10 +317,14 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
         className="pointer-events-none fixed inset-x-0 top-0 z-[28] border-b border-transparent"
         style={{
           backgroundColor: plateRampComplete
-            ? "rgba(255, 255, 255, 0.5)"
+            ? viewport.isSm
+              ? "rgba(255, 255, 255, 0.5)"
+              : "rgb(255, 255, 255)"
             : plateFill,
           borderBottomColor: plateRampComplete
-            ? "rgba(228, 228, 231, 0.6)"
+            ? viewport.isSm
+              ? "rgba(228, 228, 231, 0.6)"
+              : "rgb(228, 228, 231)"
             : plateBorderBottom,
           height: `${plateHeightPx}px`,
         }}
@@ -363,7 +389,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
                 alt="Logo Lulué"
                 width={LOGO_INTRINSIC_W}
                 height={LOGO_INTRINSIC_H}
-                className="h-auto max-w-none"
+                className={`h-auto max-w-none ${LOGO_MOBILE_OUTLINE_CLASS}`}
                 style={{ width: `${HERO_LOGO_WIDTH_VW}vw` }}
                 priority
               />
@@ -372,9 +398,11 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
         </motion.div>
       </motion.div>
 
-      <div
+      <motion.div
         className="pointer-events-none fixed inset-0 z-[16]"
-        style={{ opacity: heroForegroundSynced ? 1 : 0 }}
+        initial={false}
+        animate={{ opacity: heroForegroundSynced ? 1 : 0 }}
+        transition={foregroundRevealTransition}
         aria-hidden
       >
         <motion.div
@@ -386,19 +414,19 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
           aria-hidden
         >
           <motion.div className="absolute inset-0" style={{ y: flowerScrollY }}>
-            <div className="absolute inset-0">
+            <div className={`relative h-full ${HERO_FOREGROUND_FRAME_CLASS}`}>
               <Image
                 src="/references/hero_image_1_foreground_active.png"
                 alt=""
                 fill
-                className="object-cover"
+                className={HERO_FOREGROUND_IMAGE_CLASS}
                 sizes="100vw"
                 priority
               />
             </div>
           </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
 
       <div
         className="pointer-events-none fixed left-1/2 z-[29] -translate-x-1/2"
@@ -413,7 +441,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
           alt=""
           width={LOGO_INTRINSIC_W}
           height={LOGO_INTRINSIC_H}
-          className="h-auto w-full"
+          className={`h-auto w-full ${LOGO_MOBILE_OUTLINE_CLASS}`}
           priority
         />
       </div>
@@ -444,9 +472,11 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
             aria-hidden
           />
 
-          <div
+          <motion.div
             className="pointer-events-none absolute inset-0 z-[14]"
-            style={{ opacity: heroForegroundSynced ? 1 : 0 }}
+            initial={false}
+            animate={{ opacity: heroForegroundSynced ? 1 : 0 }}
+            transition={foregroundRevealTransition}
             aria-hidden
           >
             <motion.div
@@ -454,18 +484,18 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
               style={{ opacity: foregroundLayerOpacity }}
               aria-hidden
             >
-              <div className="absolute inset-0">
+              <div className={`relative h-full ${HERO_FOREGROUND_FRAME_CLASS}`}>
                 <Image
                   src="/references/hero_image_1_foreground_active.png"
                   alt=""
                   fill
-                  className="object-cover"
+                  className={HERO_FOREGROUND_IMAGE_CLASS}
                   sizes="100vw"
                   priority
                 />
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
