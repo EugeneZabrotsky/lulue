@@ -16,6 +16,7 @@ import {
   type ReactNode,
 } from "react";
 
+import { EditorialOutro } from "@/components/EditorialOutro";
 import { SiteFooter } from "@/components/SiteFooter";
 
 const SWITCH_THRESHOLD = 0.48;
@@ -512,9 +513,11 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
 
       {gallery}
 
+      <EditorialOutro />
+
       <section
         id="content"
-        className="bg-stone-100 px-6 py-20 text-zinc-800 sm:px-10 sm:py-28"
+        className="bg-stone-100 px-6 pb-20 pt-14 text-zinc-800 sm:px-10 sm:pb-28 sm:pt-20"
       >
         <div className="mx-auto min-w-0 max-w-7xl">
           <div className="grid min-w-0 gap-10 sm:grid-cols-2 sm:gap-8 lg:gap-10">
