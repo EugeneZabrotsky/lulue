@@ -91,7 +91,7 @@ const PIN_SCROLL_VH = 175;
  * Normalized progress through the sticky region (from useScroll start/end).
  * White → scroll → word fades in → brief hold at full opacity → sticky releases (scroll to photos).
  */
-const WORD_HOLD_START = 0.06;
+const WORD_HOLD_START = 0.025;
 /** Opacity reaches 1 here; only ~4% of pin scroll remains before the section ends. */
 const WORD_FADE_IN_END = 0.96;
 
