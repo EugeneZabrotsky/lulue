@@ -34,16 +34,16 @@ const ITEMS: GalleryItem[] = [
     alt: "Kwiaty sezonowe",
   },
   {
-    src: "/references/flowers/IMG_8998.jpg",
-    width: 2268,
-    height: 4032,
-    alt: "Kwiaty w wąskiej kompozycji kadru",
-  },
-  {
     src: "/references/flowers/IMG_1758.jpg",
     width: 2268,
     height: 4032,
     alt: "Kwiatowy portret w układzie pionowym",
+  },
+  {
+    src: "/references/flowers/IMG_8998.jpg",
+    width: 2268,
+    height: 4032,
+    alt: "Kwiaty w wąskiej kompozycji kadru",
   },
 ];
 

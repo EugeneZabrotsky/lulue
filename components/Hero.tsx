@@ -29,15 +29,19 @@ const SWITCH_THRESHOLD = 0.48;
 // opaque after the slow mount fade; eased + wider span fixes that.
 const LOGO_FRONT_THRESHOLD = 0.08;
 
-// Intrinsic aspect ratio of the lulué wordmark asset (height / width).
-const LOGO_RATIO = 367 / 799;
+// Intrinsic pixel size of `public/references/lulue.svg` (tight crop, matches width/height attrs).
+const LOGO_INTRINSIC_W = 255.52893;
+const LOGO_INTRINSIC_H = 117.10654;
+// Aspect ratio height / width — drives header plate height vs small-logo width.
+const LOGO_RATIO = LOGO_INTRINSIC_H / LOGO_INTRINSIC_W;
 
-// Visual size of the small (header-bound) logo, expressed in rem so it
-// scales with the user's root font-size — same way the link labels do.
-// 2× the previous pass: the final wordmark now reads as a small banner
-// rather than a glyph next to the menu links.
-const SMALL_LOGO_REM_MOBILE = 4.2;
-const SMALL_LOGO_REM_DESKTOP = 4.8;
+// Hero wordmark CSS width in vw (`w-[…vw]`). Must stay in sync with `finalScale`.
+const HERO_LOGO_WIDTH_VW = 86.4;
+
+// Small (header) logo width in rem — reduced after tight SVG crop so the mark
+// does not read oversized vs the nav.
+const SMALL_LOGO_REM_MOBILE = 3.42;
+const SMALL_LOGO_REM_DESKTOP = 3.9;
 const REM_PX = 16;
 
 // Tailwind metrics used as the "natural" content box before the 30 %
@@ -199,10 +203,11 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
   // small logo are centered on the plate's vertical midline.
   const smallLogoTopPx = plateCenterPx - smallLogoHeightPx / 2;
 
-  // scale × intrinsic width (which is 100vw because of `w-screen`) must
-  // equal `smallLogoWidthPx` at the switch threshold to avoid a jump.
+  // scale × displayed width ((HERO_LOGO_WIDTH_VW/100) × viewport) must equal
+  // `smallLogoWidthPx` at the switch threshold to avoid a jump.
+  const heroLogoWidthPx = (HERO_LOGO_WIDTH_VW / 100) * viewport.width;
   const finalScale =
-    viewport.width > 0 ? smallLogoWidthPx / viewport.width : 0.02;
+    viewport.width > 0 ? smallLogoWidthPx / heroLogoWidthPx : 0.02;
 
   const heroLogoScale = useTransform(
     scrollYProgress,
@@ -354,11 +359,12 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
               transition={logoEntranceTransition}
             >
               <Image
-                src="/references/lulue_logo_black_latest.png"
+                src="/references/lulue.svg"
                 alt="Logo Lulué"
-                width={799}
-                height={367}
-                className="h-auto w-screen max-w-none"
+                width={LOGO_INTRINSIC_W}
+                height={LOGO_INTRINSIC_H}
+                className="h-auto max-w-none"
+                style={{ width: `${HERO_LOGO_WIDTH_VW}vw` }}
                 priority
               />
             </motion.div>
@@ -403,10 +409,10 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
         }}
       >
         <Image
-          src="/references/lulue_logo_black_latest.png"
+          src="/references/lulue.svg"
           alt=""
-          width={799}
-          height={367}
+          width={LOGO_INTRINSIC_W}
+          height={LOGO_INTRINSIC_H}
           className="h-auto w-full"
           priority
         />
