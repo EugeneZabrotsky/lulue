@@ -5,7 +5,7 @@
   "scripts": {
     "regen:hero": "python3 ../tool_code/regen_hero_assets.py",
     "predev": "npm run regen:hero",
-    "prebuild": "npm run regen:hero",
+    "prebuild": "node -e \"if(!process.env.VERCEL)require('child_process').execSync('npm run regen:hero',{stdio:'inherit'})\"",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
