@@ -268,6 +268,14 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
     [0, 1],
     [1, 0.1],
   );
+  // While the fixed occluder is opaque it already paints the PNG; keep the
+  // in-section copy transparent and crossfade in with (1 − occluder) so we
+  // never stack two full-opacity bouquets (mobile especially: misalignment +
+  // parallax looked like blur/double vision at the first scroll ticks).
+  const inSectionForegroundOpacity = useTransform(
+    [occluderOpacity, foregroundLayerOpacity],
+    ([o, fg]: number[]) => (1 - o) * fg,
+  );
 
   // White plate and link color share the same (deliberately slow) ramp.
   // Default `useTransform` clamp keeps both outputs locked at the final
@@ -481,19 +489,24 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
           >
             <motion.div
               className="pointer-events-none absolute inset-0"
-              style={{ opacity: foregroundLayerOpacity }}
+              style={{
+                opacity: inSectionForegroundOpacity,
+              }}
               aria-hidden
             >
-              <div className={`relative h-full ${HERO_FOREGROUND_FRAME_CLASS}`}>
-                <Image
-                  src="/references/hero_image_1_foreground_active.png"
-                  alt=""
-                  fill
-                  className={HERO_FOREGROUND_IMAGE_CLASS}
-                  sizes="100vw"
-                  priority
-                />
-              </div>
+              {/* Same y as fixed occluder so the handoff does not slide two cutouts past each other */}
+              <motion.div className="absolute inset-0" style={{ y: flowerScrollY }}>
+                <div className={`relative h-full ${HERO_FOREGROUND_FRAME_CLASS}`}>
+                  <Image
+                    src="/references/hero_image_1_foreground_active.png"
+                    alt=""
+                    fill
+                    className={HERO_FOREGROUND_IMAGE_CLASS}
+                    sizes="100vw"
+                    priority
+                  />
+                </div>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>
