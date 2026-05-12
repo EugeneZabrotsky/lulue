@@ -81,22 +81,17 @@ const LINK_COLOR_OUTPUT: [string, string, string] = [
 ];
 const LINK_COLOR_SOLID = LINK_COLOR_OUTPUT[2];
 
-// Narrow viewports: light halo so the mark reads over the hero (below full-strength stacking).
-const LOGO_MOBILE_OUTLINE_CLASS =
-  "max-sm:[filter:drop-shadow(0_0_1px_rgba(255,255,255,0.62))_drop-shadow(0_0_5px_rgba(255,255,255,0.2))]";
-
-// Mobile-only: foreground cutout does not span full width so a clear band remains
-// beside the bouquet (logo reads over background + transparent logo art).
+// Foreground cutout below `sm`: partial width beside the bouquet; full-bleed at `sm+`.
 const HERO_FOREGROUND_FRAME_CLASS =
   "absolute inset-y-0 right-0 w-[62%] sm:inset-0 sm:w-auto";
-/** Very light blur on phones — matches background + both foreground stacks. */
-const HERO_MOBILE_IMAGE_BLUR_CLASS = "max-sm:blur-xs";
-const HERO_BACKGROUND_IMAGE_CLASS = `object-cover ${HERO_MOBILE_IMAGE_BLUR_CLASS}`;
+const HERO_BACKGROUND_IMAGE_CLASS = "object-cover";
 const HERO_FOREGROUND_IMAGE_CLASS =
-  `object-cover object-right sm:object-center ${HERO_MOBILE_IMAGE_BLUR_CLASS}`;
+  "object-cover object-right sm:object-center";
 
-/** Short link → Lulué - Flower Boutique (Warsaw). Embed `pb` from share/embed flow; works without Maps API key. */
+/** Short link → Lulué - Flower Boutique (Warsaw) on Google Maps. */
 const LULUE_GOOGLE_MAPS_URL = "https://maps.app.goo.gl/xtjLeNa3KoSQZw6M8";
+
+/** Embed `pb` from share/embed flow; works without Maps API key. */
 const LULUE_GOOGLE_MAP_EMBED_SRC =
   "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2445.936!2d20.9584617!3d52.1980492!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471933ca4d3a2b51%3A0xdcdb45249d80dea4!2sLULU%C3%89%20FLOWERS!5e0!3m2!1spl!2spl!4v1736640000000!5m2!1spl!2spl";
 
@@ -396,7 +391,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
                 alt="Logo Lulué"
                 width={LOGO_INTRINSIC_W}
                 height={LOGO_INTRINSIC_H}
-                className={`h-auto max-w-none ${LOGO_MOBILE_OUTLINE_CLASS}`}
+                className="h-auto max-w-none"
                 style={{ width: `${HERO_LOGO_WIDTH_VW}vw` }}
                 priority
               />
@@ -406,7 +401,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
       </motion.div>
 
       <motion.div
-        className="pointer-events-none fixed inset-0 z-[16]"
+        className="pointer-events-none fixed inset-0 z-[16] hidden sm:block"
         initial={false}
         animate={{ opacity: heroForegroundSynced ? 1 : 0 }}
         transition={foregroundRevealTransition}
@@ -448,21 +443,21 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
           alt=""
           width={LOGO_INTRINSIC_W}
           height={LOGO_INTRINSIC_H}
-          className={`h-auto w-full ${LOGO_MOBILE_OUTLINE_CLASS}`}
+          className="h-auto w-full"
           priority
         />
       </div>
 
       <section
         ref={heroSectionRef}
-        className="relative h-[100dvh] min-h-screen overflow-hidden bg-black"
+        className="relative h-[100dvh] min-h-screen overflow-hidden bg-white sm:bg-black"
       >
         <div className="absolute inset-0 overflow-hidden">
           <Image
             src="/references/hero_image_1_active.png"
             alt="Kompozycja kwiatów w stylu edytorialnym"
             fill
-            className={HERO_BACKGROUND_IMAGE_CLASS}
+            className={`hidden sm:block ${HERO_BACKGROUND_IMAGE_CLASS}`}
             sizes="100vw"
             priority
           />
@@ -475,12 +470,12 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
             subject meets the darkened background.
           */}
           <div
-            className="pointer-events-none absolute inset-0 z-[17] bg-linear-to-b from-black/12 via-transparent to-black/22"
+            className="pointer-events-none absolute inset-0 z-[17] hidden bg-linear-to-b from-black/12 via-transparent to-black/22 sm:block"
             aria-hidden
           />
 
           <motion.div
-            className="pointer-events-none absolute inset-0 z-[14]"
+            className="pointer-events-none absolute inset-0 z-[14] hidden sm:block"
             initial={false}
             animate={{ opacity: heroForegroundSynced ? 1 : 0 }}
             transition={foregroundRevealTransition}
@@ -521,34 +516,46 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
         id="content"
         className="bg-stone-100 px-6 py-20 text-zinc-800 sm:px-10 sm:py-28"
       >
-        <div className="mx-auto max-w-5xl space-y-8">
-          <div className="mx-auto max-w-3xl space-y-3 text-center sm:text-left">
-            <h2 className="font-[family-name:var(--font-serif)] text-3xl tracking-tight sm:text-4xl">
-              Zapraszamy do naszego butika
-            </h2>
-            <p className="leading-8 text-zinc-700">
-              Lulué - Flower Boutique — adres, dojazd i godziny otwarcia znajdziesz w{" "}
-              <a
-                href={LULUE_GOOGLE_MAPS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-zinc-400 underline-offset-4 transition-colors hover:text-zinc-900"
-              >
-                Mapach Google
-              </a>
-              .
-            </p>
-          </div>
-
-          <div className="overflow-hidden rounded-sm border border-zinc-300/70 bg-zinc-200 shadow-sm">
-            <iframe
-              title="Lulué - Flower Boutique w Mapach Google"
-              src={LULUE_GOOGLE_MAP_EMBED_SRC}
-              className="aspect-[4/3] w-full min-h-[280px] border-0 sm:aspect-auto sm:h-[min(520px,55vh)] sm:min-h-[360px]"
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-10 sm:grid-cols-2 sm:gap-8 lg:gap-10">
+            <div className="flex flex-col gap-4 sm:gap-6">
+              <h2 className="text-center font-[family-name:var(--font-serif)] text-3xl tracking-tight sm:text-left sm:text-4xl">
+                Zapraszamy do naszego butika.
+              </h2>
+              <div className="relative isolate aspect-[4/3] min-h-[360px] overflow-hidden rounded-sm border border-zinc-300/70 bg-zinc-300/40 shadow-sm sm:aspect-auto sm:min-h-[440px] sm:h-[min(640px,68vh)]">
+                <Image
+                  src="/references/interior/photo_2026-05-12%2005.16.38.jpeg"
+                  alt="Wnętrze butiku kwiatowego Lulué"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-4 sm:gap-6">
+              <h3 className="text-center font-[family-name:var(--font-serif)] text-3xl font-normal tracking-tight sm:text-left sm:text-4xl">
+                <a
+                  href={LULUE_GOOGLE_MAPS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline decoration-zinc-400 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-600"
+                >
+                  Google maps
+                </a>
+                .
+              </h3>
+              <div className="overflow-hidden rounded-sm border border-zinc-300/70 bg-zinc-200 shadow-sm">
+                <iframe
+                  title="Lulué - Flower Boutique w Mapach Google"
+                  src={LULUE_GOOGLE_MAP_EMBED_SRC}
+                  className="aspect-[4/3] w-full min-h-[360px] border-0 sm:aspect-auto sm:h-[min(640px,68vh)] sm:min-h-[440px]"
+                  loading="lazy"
+                  allowFullScreen
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
