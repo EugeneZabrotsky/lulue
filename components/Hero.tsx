@@ -81,16 +81,19 @@ const LINK_COLOR_OUTPUT: [string, string, string] = [
 ];
 const LINK_COLOR_SOLID = LINK_COLOR_OUTPUT[2];
 
-// Narrow viewports: soft white glow so the mark reads on the hero (layered blur).
+// Narrow viewports: light halo so the mark reads over the hero (below full-strength stacking).
 const LOGO_MOBILE_OUTLINE_CLASS =
-  "max-sm:[filter:drop-shadow(0_0_0.75px_rgba(255,255,255,0.88))_drop-shadow(0_0_2px_rgba(255,255,255,0.42))_drop-shadow(0_0_4px_rgba(255,255,255,0.22))]";
+  "max-sm:[filter:drop-shadow(0_0_1px_rgba(255,255,255,0.62))_drop-shadow(0_0_5px_rgba(255,255,255,0.2))]";
 
 // Mobile-only: foreground cutout does not span full width so a clear band remains
 // beside the bouquet (logo reads over background + transparent logo art).
 const HERO_FOREGROUND_FRAME_CLASS =
   "absolute inset-y-0 right-0 w-[62%] sm:inset-0 sm:w-auto";
+/** Very light blur on phones — matches background + both foreground stacks. */
+const HERO_MOBILE_IMAGE_BLUR_CLASS = "max-sm:blur-xs";
+const HERO_BACKGROUND_IMAGE_CLASS = `object-cover ${HERO_MOBILE_IMAGE_BLUR_CLASS}`;
 const HERO_FOREGROUND_IMAGE_CLASS =
-  "object-cover object-right sm:object-center";
+  `object-cover object-right sm:object-center ${HERO_MOBILE_IMAGE_BLUR_CLASS}`;
 
 /** Short link → Lulué - Flower Boutique (Warsaw). Embed `pb` from share/embed flow; works without Maps API key. */
 const LULUE_GOOGLE_MAPS_URL = "https://maps.app.goo.gl/xtjLeNa3KoSQZw6M8";
@@ -463,7 +466,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
             src="/references/hero_image_1_active.png"
             alt="Kompozycja kwiatów w stylu edytorialnym"
             fill
-            className="object-cover"
+            className={HERO_BACKGROUND_IMAGE_CLASS}
             sizes="100vw"
             priority
           />
@@ -494,8 +497,12 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
               }}
               aria-hidden
             >
-              {/* Same y as fixed occluder so the handoff does not slide two cutouts past each other */}
-              <motion.div className="absolute inset-0" style={{ y: flowerScrollY }}>
+              {/* Mobile: same y as fixed occluder so the crossfade does not slide two cutouts. Desktop:
+                  background has no parallax — extra translate here looked like the bouquet peeling off the wall. */}
+              <motion.div
+                className="absolute inset-0"
+                style={{ y: viewport.isSm ? 0 : flowerScrollY }}
+              >
                 <div className={`relative h-full ${HERO_FOREGROUND_FRAME_CLASS}`}>
                   <Image
                     src="/references/hero_image_1_foreground_active.png"
