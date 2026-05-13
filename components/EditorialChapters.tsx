@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import {
-  motion,
+  m,
   useReducedMotion,
   useScroll,
   useTransform,
@@ -224,7 +224,7 @@ function EditorialChapter({
           className={PIN_STICKY_LAYOUT}
           style={{ backgroundColor: pinBackdrop.background }}
         >
-          <motion.h2
+          <m.h2
             id={`${chapter.id}-heading`}
             className={PIN_HEADING_TYPOGRAPHY}
             style={{
@@ -233,7 +233,7 @@ function EditorialChapter({
             }}
           >
             {chapter.title}
-          </motion.h2>
+          </m.h2>
         </div>
       </div>
 

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import {
-  motion,
+  m,
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
@@ -94,7 +94,9 @@ const LULUE_GOOGLE_MAPS_URL = "https://maps.app.goo.gl/xtjLeNa3KoSQZw6M8";
 
 /** Embed `pb` from share/embed flow; works without Maps API key. */
 const LULUE_GOOGLE_MAP_EMBED_SRC =
-  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2445.936!2d20.9584617!3d52.1980492!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471933ca4d3a2b51%3A0xdcdb45249d80dea4!2sLULU%C3%89%20FLOWERS!5e0!3m2!1spl!2spl!4v1736640000000!5m2!1spl!2spl";
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d19567.488!2d20.9584617!3d52.1980492!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471933ca4d3a2b51%3A0xdcdb45249d80dea4!2sLULU%C3%89%20FLOWERS!5e0!3m2!1spl!2spl!4v1736640000000!5m2!1spl!2spl";
+
+
 
 export function Hero({ gallery }: { gallery?: ReactNode }) {
   const reduceMotion = useReducedMotion() === true;
@@ -304,6 +306,8 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
     (o) => `rgba(228, 228, 231, ${o})`,
   );
 
+  const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
+
   const logoEntranceTransition = reduceMotion
     ? { duration: 0 }
     : {
@@ -320,7 +324,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
 
   return (
     <>
-      <motion.div
+      <m.div
         className="pointer-events-none fixed inset-x-0 top-0 z-[28] border-b border-transparent"
         style={{
           backgroundColor: plateRampComplete
@@ -338,7 +342,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
         className="fixed inset-x-0 top-0 z-[30] px-5 sm:px-10"
         style={{ height: `${plateHeightPx}px` }}
       >
-        <motion.div
+        <m.div
           className="mx-auto flex h-full w-full max-w-6xl items-center text-[0.65rem] leading-none font-medium tracking-[0.32em] uppercase sm:text-[0.7rem]"
           style={{
             color: plateRampComplete ? LINK_COLOR_SOLID : linkColor,
@@ -360,7 +364,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
               Instagram
             </a>
           </nav>
-        </motion.div>
+        </m.div>
       </header>
 
       {/*
@@ -370,19 +374,19 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
         z-[29] above the plate while the occluder is gone; plate opacity
         is still 0 until the ramp past the threshold (PLATE_RANGE).
       */}
-      <motion.div
+      <m.div
         className="pointer-events-none fixed inset-0"
         style={{
           zIndex: logoStackZIndex,
           visibility: phase === "large" ? "visible" : "hidden",
         }}
       >
-        <motion.div
+        <m.div
           className="absolute inset-0 flex items-center justify-center"
           style={{ y: flowerScrollY }}
         >
-          <motion.div style={{ scale: heroLogoScale, y: logoY }}>
-            <motion.div
+          <m.div style={{ scale: heroLogoScale, y: logoY }}>
+            <m.div
               initial={reduceMotion ? false : { opacity: 0, scale: 0.97, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={logoEntranceTransition}
@@ -396,19 +400,19 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
                 style={{ width: `${HERO_LOGO_WIDTH_VW}vw` }}
                 priority
               />
-            </motion.div>
-          </motion.div>
-        </motion.div>
-      </motion.div>
+            </m.div>
+          </m.div>
+        </m.div>
+      </m.div>
 
-      <motion.div
+      <m.div
         className="pointer-events-none fixed inset-0 z-[16] hidden sm:block"
         initial={false}
         animate={{ opacity: heroForegroundSynced ? 1 : 0 }}
         transition={foregroundRevealTransition}
         aria-hidden
       >
-        <motion.div
+        <m.div
           className="pointer-events-none absolute inset-0"
           style={{
             opacity: occluderOpacity,
@@ -416,7 +420,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
           }}
           aria-hidden
         >
-          <motion.div className="absolute inset-0" style={{ y: flowerScrollY }}>
+          <m.div className="absolute inset-0" style={{ y: flowerScrollY }}>
             <div className={`relative h-full ${HERO_FOREGROUND_FRAME_CLASS}`}>
               <Image
                 src="/references/hero_image_1_foreground_active.png"
@@ -427,9 +431,9 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
                 priority
               />
             </div>
-          </motion.div>
-        </motion.div>
-      </motion.div>
+          </m.div>
+        </m.div>
+      </m.div>
 
       <div
         className="pointer-events-none fixed left-1/2 z-[29] -translate-x-1/2"
@@ -475,14 +479,14 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
             aria-hidden
           />
 
-          <motion.div
+          <m.div
             className="pointer-events-none absolute inset-0 z-[14] hidden sm:block"
             initial={false}
             animate={{ opacity: heroForegroundSynced ? 1 : 0 }}
             transition={foregroundRevealTransition}
             aria-hidden
           >
-            <motion.div
+            <m.div
               className="pointer-events-none absolute inset-0"
               style={{
                 opacity: inSectionForegroundOpacity,
@@ -491,7 +495,7 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
             >
               {/* Mobile: same y as fixed occluder so the crossfade does not slide two cutouts. Desktop:
                   background has no parallax — extra translate here looked like the bouquet peeling off the wall. */}
-              <motion.div
+              <m.div
                 className="absolute inset-0"
                 style={{ y: viewport.isSm ? 0 : flowerScrollY }}
               >
@@ -505,10 +509,37 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
                     priority
                   />
                 </div>
-              </motion.div>
-            </motion.div>
-          </motion.div>
+              </m.div>
+            </m.div>
+          </m.div>
         </div>
+
+        <m.div
+          className="pointer-events-none absolute bottom-10 left-1/2 z-[20] -translate-x-1/2"
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={
+            reduceMotion
+              ? {}
+              : { delay: LOGO_ENTRANCE_DURATION * 0.85, duration: 0.8, ease: "easeOut" }
+          }
+          aria-hidden
+        >
+          <m.div style={{ opacity: scrollHintOpacity }}>
+            <div className="relative h-12 w-px overflow-hidden bg-white/30">
+              <m.div
+                className="absolute inset-x-0 top-0 bg-white/80"
+                animate={reduceMotion ? {} : { y: ["-100%", "250%"] }}
+                transition={
+                  reduceMotion
+                    ? {}
+                    : { repeat: Infinity, duration: 1.1, ease: "easeIn", repeatDelay: 0.8 }
+                }
+                style={{ height: "40%" }}
+              />
+            </div>
+          </m.div>
+        </m.div>
       </section>
 
       {gallery}
@@ -517,26 +548,27 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
 
       <section
         id="content"
-        className="bg-stone-100 px-6 pb-20 pt-14 text-zinc-800 sm:px-10 sm:pb-28 sm:pt-20"
+        className="bg-zinc-50 px-6 pb-20 pt-14 text-zinc-800 sm:px-10 sm:pb-28 sm:pt-20"
       >
         <div className="mx-auto min-w-0 max-w-7xl">
-          <div className="grid min-w-0 gap-10 sm:grid-cols-2 sm:gap-8 lg:gap-10">
-            <div className="flex min-w-0 flex-col gap-4 sm:gap-6">
-              <h2 className="text-center font-[family-name:var(--font-serif)] text-3xl tracking-tight sm:text-left sm:text-4xl">
-                Zapraszamy do naszego butika.
-              </h2>
-              <div className="relative isolate aspect-[4/3] w-full min-w-0 min-h-[360px] overflow-hidden rounded-sm border border-zinc-300/70 bg-zinc-300/40 shadow-sm sm:aspect-auto sm:h-[min(640px,68vh)] sm:min-h-[440px]">
-                <Image
-                  src="/references/interior/photo_2026-05-12%2005.16.38.jpeg"
-                  alt="Wnętrze butiku kwiatowego Lulué"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw"
-                  loading="lazy"
-                />
-              </div>
+          <div className="grid min-w-0 gap-x-8 gap-y-4 sm:grid-cols-2 sm:grid-rows-[auto_minmax(360px,min(640px,68vh))] sm:gap-y-6 lg:gap-x-10">
+
+            <h2 className="text-center font-[family-name:var(--font-serif)] text-3xl tracking-tight sm:col-start-1 sm:row-start-1 sm:text-left sm:text-4xl">
+              Zapraszamy do naszego butika.
+            </h2>
+
+            <div className="relative isolate aspect-[4/3] min-h-[360px] w-full min-w-0 overflow-hidden rounded-sm border border-zinc-300/70 bg-zinc-300/40 shadow-sm sm:col-start-1 sm:row-start-2 sm:aspect-auto sm:h-full">
+              <Image
+                src="/references/interior/interior-01.jpeg"
+                alt="Wnętrze butiku kwiatowego Lulué"
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw"
+                loading="lazy"
+              />
             </div>
-            <div className="flex min-w-0 flex-col gap-4 sm:gap-6">
+
+            <div className="flex flex-col items-center gap-1 sm:col-start-2 sm:row-start-1 sm:items-start">
               <h3 className="text-center font-[family-name:var(--font-serif)] text-3xl font-normal tracking-tight sm:text-left sm:text-4xl">
                 <a
                   href={LULUE_GOOGLE_MAPS_URL}
@@ -544,21 +576,26 @@ export function Hero({ gallery }: { gallery?: ReactNode }) {
                   rel="noopener noreferrer"
                   className="underline decoration-zinc-400 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-600"
                 >
-                  Google maps
+                  Instalatorów 7
                 </a>
-                .
+                , Warszawa
               </h3>
-              <div className="relative min-w-0 w-full overflow-hidden rounded-sm border border-zinc-300/70 bg-zinc-200 shadow-sm">
-                <iframe
-                  title="Lulué - Flower Boutique w Mapach Google"
-                  src={LULUE_GOOGLE_MAP_EMBED_SRC}
-                  className="block aspect-[4/3] min-h-[360px] min-w-0 w-full max-w-full border-0 sm:aspect-auto sm:h-[min(640px,68vh)] sm:min-h-[440px]"
-                  loading="lazy"
-                  allowFullScreen
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
+              <p className="text-sm tracking-wide text-zinc-500">
+                pn–sb&nbsp;&nbsp;10:00–19:00
+              </p>
             </div>
+
+            <div className="relative aspect-[4/3] min-h-[360px] min-w-0 w-full overflow-hidden rounded-sm border border-zinc-300/70 bg-zinc-200 shadow-sm sm:col-start-2 sm:row-start-2 sm:aspect-auto sm:h-full">
+              <iframe
+                title="Lulué - Flower Boutique w Mapach Google"
+                src={LULUE_GOOGLE_MAP_EMBED_SRC}
+                className="block h-full w-full min-w-0 border-0"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+
           </div>
         </div>
       </section>
